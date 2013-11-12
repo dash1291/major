@@ -28,15 +28,16 @@ def process_file(filename):
 
     graph_db = neo4j.GraphDatabaseService('http://localhost:7474/db/data/')
     concepts = graph_db.get_or_create_index(neo4j.Node, 'concepts')
+    relations = graph_db.get_or_create_index(neo4j.Relationship, 'relations')
 
     for p in pairs:
         n1 = concepts.get_or_create('concept_name', p[0], {'name': p[0]})
         n2 = concepts.get_or_create('concept_name', p[2], {'name': p[2]})
-        graph_db.create((n1, p[1], n2))
+        relations.create('relation_name', p[1], (n1, p[1], n2))
 
 
 if __name__ == '__main__':
-    if len(sys.argv) < 1:
+    if len(sys.argv) < 2:
         print 'No file specified.'
     else:
         filename = sys.argv[1]

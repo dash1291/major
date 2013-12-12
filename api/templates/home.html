@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Graph</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" href="/static/css/bootstrap.min.css" type="text/css" media="screen" />
+	<script src="/static/js/jquery-1.10.2.min.js"></script>
+	<script src="/static/js/jquery.form.js"></script>
+	<script src="/static/js/d3.v3.min.js"></script>
+	<script src="/static/js/forcegraph.js"></script>
+
+	<style>
+		.btn.upload img {
+			height: 24px;
+			margin: 0 5px 0 0;
+			width: 24px;
+			display: none;
+		}
+
+		#main {
+			margin-bottom: 20px;
+		}
+
+		#upload-form {
+			display: none;
+		}
+
+		.link {
+		  fill: none;
+		  stroke: #666;
+		  stroke-width: 1.5px;
+		}
+
+		#licensing {
+		  fill: green;
+		}
+
+		.link.licensing {
+		  stroke: green;
+		}
+
+		.link.resolved {
+		  stroke-dasharray: 0,2 1;
+		}
+
+		circle {
+		  fill: #ccc;
+		  stroke: #333;
+		  stroke-width: 1.5px;
+		}
+
+		.link.highlight{
+		    stroke: blue;
+		    //stroke-width: 2px;
+		}
+
+		text {
+		  font: 16px sans-serif;
+		  pointer-events: none;
+		  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+		}
+
+		.link-text {
+			opacity: 0.6;
+		}
+
+		.link-text.hidden {
+			opacity: 0;
+		}
+
+	</style>
+	<script>
+		$(document).ready(function() {
+			$('form').ajaxForm({
+				beforeSend: function() {
+					$('.btn.upload img').show();
+				},
+				complete: function(xhr) {
+					$('.btn.upload img').hide();
+					//console.log(xhr.responseText);
+					//$(document).html(xhr.responseText);
+					init_graph(JSON.parse(xhr.responseText), '#main');
+					$('#panel-new').hide();
+				}
+			});
+
+			$('#fileupload').change(function() {
+				$('.btn.upload').removeClass('disabled');
+				$('.btn.upload img').hide();
+			});
+
+			$('.btn.select').click(function() {
+				$('#fileupload').click();
+			});
+
+			$('.btn.upload').click(function() {
+				$('#upload-form').submit();
+			});
+
+			$('#btn-generate-new').click(function() {
+				$('svg').remove();
+				$('#panel-new').show();
+			})
+		});
+	</script>
+</head>
+<body>
+	<div class="navbar navbar-default">
+		<div class="container">
+			<div class="navbar-header">
+				<a href="/" class="navbar-brand">Conceptual</a>
+			</div>
+			<div class="navbar-collapse collapse navbar-responsive-collapse">
+				<ul class="nav navbar-nav">
+					<li class="active">
+						<a href="/" id="btn-generate-new">Generate New</a>
+					</li>
+					<li>
+						<a href="/browse" id="browse">Browse</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="main" id="main">
+			{% block main %}
+			{% endblock %}
+		</div>
+	</div>
+</body>
+</html>

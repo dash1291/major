@@ -1,0 +1,9 @@
+{% extends "home.html" %}
+{% block main %}
+	<div class="row">
+		<h1>List of all concepts. Click on a concept to view it.</h1>
+		{% for concept in concepts %}
+			<p><a href="/graphical/{{ concept }}">{{ concept }}</a></p>
+		{% endfor %}
+	</div>
+{% endblock %}

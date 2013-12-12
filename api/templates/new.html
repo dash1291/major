@@ -1,0 +1,20 @@
+{% extends "home.html" %}
+{% block main %}
+<div class="row" id="panel-new">
+	<div class="col-lg-6">
+		<h1>Visualize text conceptually</h1>
+		<p>The system behind this page applies some magic to your text using some well researched techniques and gives you something which makes it easier to understand the text.
+		</p>
+	</div>
+	<div class="col-lg-6 jumbotron">
+		<h1>Generate Concept Graph</h1>
+		<p>Help yourself and upload a plain text document to see its concept map.</p>
+		<a class="btn btn-info btn-lg file-btn select">Select</a>
+		<a class="btn btn-primary btn-lg file-btn upload disabled"><img src="/static/img/spinner.gif">Upload</a>
+		<form action="/graph" id="upload-form" method="POST" enctype="multipart/form-data">
+			<input name="file" id="fileupload" type="file">
+			<input type="submit">
+		</form>
+	</div>
+</div>
+{% endblock %}

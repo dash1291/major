@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import subprocess
 import sys
+import os.path
 
 from py2neo import neo4j
 
@@ -69,14 +70,18 @@ def process_file(filename):
     subprocess.call(cmd.split(' '))
 
 
+def pipeline(filename):
+    print 'Resolving coreferences'
+    corefs = get_corefs(filename)
+
+    process_file(filename)
+    pairs = parse_output(open(os.path.dirname(__file__) + '/out.txt').read(), corefs)
+    add_to_database(pairs)
+    return pairs
+
+
 if __name__ == '__main__':
     if len(sys.argv) < 2:
         print 'No file specified.'
     else:
-        filename = sys.argv[1]
-        print 'Resolving coreferences'
-        corefs = get_corefs(filename)
-
-        process_file(filename)
-        pairs = parse_output(open('out.txt').read(), corefs)
-        add_to_database(pairs)
+        pipeline(sys.argv[1])

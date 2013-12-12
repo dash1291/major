@@ -1,0 +1,7 @@
+{% extends "home.html" %}
+{% block main %}
+<script src="/static/js/forcegraph.js"></script>
+<script>
+  init_graph({{ links|safe }}, '#main');
+</script>
+{% endblock %}

@@ -5,6 +5,7 @@ import collection.mutable.MutableList
 import edu.arizona.sista.processors.Processor
 import edu.arizona.sista.processors.CorefMention
 import edu.arizona.sista.processors.corenlp.CoreNLPProcessor
+import edu.knowitall.tool.sentence.OpenNlpSentencer
 
 import edu.knowitall.ollie.Ollie
 import edu.knowitall.tool.parse.MaltParser
@@ -64,14 +65,28 @@ object CorefResolver {
 
         return corefs
     }
-
 }
 
 object Extractor extends App {
-    // Get corefs into an iterable
-    // Extract OLLIE tripples, and replace with references
-    // return the replaced triples
-    println(CorefResolver.resolve("Joe Doe is a passionate nerd. He also likes football."))
-    //var parser = new MaltParser
-    //var ol = new Ollie
+    var str:String = "John Doe is a passionate nerd. He also likes football."
+    var corefs = CorefResolver.resolve(str)
+
+    var sentencer = new OpenNlpSentencer
+    var parser = new MaltParser
+    var ollie = new Ollie
+
+    var sentences = sentencer.segmentTexts(str).iterator
+
+    // store sentence index
+    var ind = 0
+    for (line <- sentences) {
+        val parsed = parser.dependencyGraph(line)
+        val extractionInstances = ollie.extract(parsed)
+
+        for (inst <- extractionInstances) {
+            // replace the corefs here
+            println(inst.extraction)
+        }
+        ind = ind + 1
+    }
 }

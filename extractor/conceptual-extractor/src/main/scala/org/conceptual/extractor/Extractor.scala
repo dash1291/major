@@ -21,6 +21,14 @@ class Coreference(repr:String, ref:String, sentence_index:Int) {
     override def toString():String = "(" + representative + ", " + coref + ")"
 }
 
+class Extraction(arg1Text:String, relText:String, arg2Text:String) {
+    var arg1:String = arg1Text
+    var rel:String = relText
+    var arg2:String = arg2Text
+
+    override def toString():String = "(" + arg1 + ";" + rel + ";" + arg2 + ")"
+}
+
 object CorefResolver {
     var proc:Processor = new CoreNLPProcessor(internStrings = false)
 
@@ -79,13 +87,35 @@ object Extractor extends App {
 
     // store sentence index
     var ind = 0
+    var extractions = new MutableList[Extraction]
     for (line <- sentences) {
         val parsed = parser.dependencyGraph(line)
         val extractionInstances = ollie.extract(parsed)
 
+        var repr = ""
+        var arg1 = ""
+        var arg2 = ""
+        var rel = ""
         for (inst <- extractionInstances) {
-            // replace the corefs here
-            println(inst.extraction)
+
+            for (coref <- corefs) {
+                repr = coref.representative
+                arg1 = inst.extraction.arg1.text
+                arg2 = inst.extraction.arg2.text
+                rel = inst.extraction.rel.text
+
+                if (coref.sentence == ind) {
+                    if (coref.coref == arg1) {
+                        arg1 = repr
+                    }
+
+                    if (coref.coref == arg2) {
+                        arg2 = repr
+                    }
+                }
+            }
+            extractions += new Extraction(arg1, rel, arg2)
+
         }
         ind = ind + 1
     }

@@ -37,7 +37,7 @@ class ExtractionsList(extractions:Iterable[Extraction]) {
     override def toString:String = {
         var retVal = ""
         for (extraction <- extractions) {
-            retVal += extraction.toString()
+            retVal += extraction.toString() + "\n"
         }
         return retVal
     }

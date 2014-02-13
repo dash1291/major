@@ -1,51 +1,21 @@
 #!/usr/bin/env python
-import subprocess
 import sys
-import os.path
 
 from py2neo import neo4j
+import zmq
 
-from stanford import get_corefs
+
+context = zmq.Context()
+socket = context.socket(zmq.REQ)
+socket.connect("tcp://127.0.0.1:8080")
 
 
-def parse_output(out, corefs):
-    sents = out.split('\n\n')
+def parse_output(out):
+    extractions = out.strip().split("\n")
     pairs = []
 
-    sent_ind = 1
-    for sent in sents:
-        extractions = sent.split('\n')[1:]
-
-        for extraction in extractions:
-            if extraction == 'No extractions found.':
-                break
-
-            part = extraction.split(':')[1].strip()[1:-1].split(';')
-            part = map(lambda x: x.strip().lower(), part)
-
-            skip = False
-
-            if part[0].lower() == 'it':
-                skip = True
-                for coref in corefs:
-
-                    if coref[2] == sent_ind and coref[0] == part[0]:
-                        part[0] = coref[1]
-                        skip = False
-            else:
-                for coref in corefs:
-
-                    if coref[2] == sent_ind:
-                        if coref[0] == part[0]:
-                            part[0] = coref[1]
-
-                        elif coref[0] == part[2]:
-                            part[2] = coref[1]
-
-            if not skip:
-                pairs.append(part)
-
-        sent_ind += 1
+    for extraction in extractions:
+        pairs.append(extraction[1:-1].split(";"))
 
     return pairs
 
@@ -63,21 +33,15 @@ def add_to_database(pairs):
         relations.get_or_create('relation_name', '%s %s %s' % rel_tup, rel_tup)
 
 
-def process_file(filename):
-    print 'Extracting relations'
-    cmd = 'java -Xmx512m -jar ollie-app-latest.jar --split %s -o out.txt' % (
-        filename)
-    subprocess.call(cmd.split(' '))
+def send_extractor_request(text):
+    socket.send(text)
+    return socket.recv()
 
 
 def pipeline(filename):
     print 'Resolving coreferences'
-    corefs = get_corefs(filename)
-
-    process_file(filename)
-    pairs = parse_output(open(os.path.dirname(__file__) + '/out.txt').read(), corefs)
-    add_to_database(pairs)
-    return pairs
+    res = send_extractor_request(open(filename).read())
+    return parse_output(res)
 
 
 if __name__ == '__main__':

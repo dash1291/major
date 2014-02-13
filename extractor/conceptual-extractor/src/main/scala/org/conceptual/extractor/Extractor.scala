@@ -13,6 +13,7 @@ import scala.io.Source
 import edu.knowitall.ollie.confidence.OllieConfidenceFunction
 
 
+// Coreference structure
 class Coreference(repr:String, ref:String, sentence_index:Int) {
     var representative:String = repr
     var coref:String = ref
@@ -21,6 +22,8 @@ class Coreference(repr:String, ref:String, sentence_index:Int) {
     override def toString():String = "(" + representative + ", " + coref + ")"
 }
 
+
+// Extraction structure
 class Extraction(arg1Text:String, relText:String, arg2Text:String) {
     var arg1:String = arg1Text
     var rel:String = relText
@@ -29,8 +32,21 @@ class Extraction(arg1Text:String, relText:String, arg2Text:String) {
     override def toString():String = "(" + arg1 + ";" + rel + ";" + arg2 + ")"
 }
 
-object CorefResolver {
-    var proc:Processor = new CoreNLPProcessor(internStrings = false)
+
+class ExtractionsList(extractions:Iterable[Extraction]) {
+    override def toString:String = {
+        var retVal = ""
+        for (extraction <- extractions) {
+            retVal += extraction.toString()
+        }
+        return retVal
+    }
+}
+
+
+class CorefResolver {
+    var proc:Processor = new CoreNLPProcessor(internStrings = true)
+    proc.annotate("Initialize this processor.")
 
     private def lessThanForMentions(x:CorefMention, y:CorefMention):Boolean = {
         if (x.sentenceIndex < y.sentenceIndex) return true
@@ -75,48 +91,58 @@ object CorefResolver {
     }
 }
 
-object Extractor extends App {
-    var str:String = "John Doe is a passionate nerd. He also likes football."
-    var corefs = CorefResolver.resolve(str)
 
-    var sentencer = new OpenNlpSentencer
+// Main extractor object
+class Extractor {
+    var corefResolver = new CorefResolver
     var parser = new MaltParser
     var ollie = new Ollie
 
-    var sentences = sentencer.segmentTexts(str).iterator
+    // Method to be used for extraction.
+    def extract(str:String):ExtractionsList = {
+        // Extract coreferences
+        var corefs = corefResolver.resolve(str)
 
-    // store sentence index
-    var ind = 0
-    var extractions = new MutableList[Extraction]
-    for (line <- sentences) {
-        val parsed = parser.dependencyGraph(line)
-        val extractionInstances = ollie.extract(parsed)
+        // segment the text into sentences
+        var sentencer = new OpenNlpSentencer
+        var sentences = sentencer.segmentTexts(str).iterator
 
-        var repr = ""
-        var arg1 = ""
-        var arg2 = ""
-        var rel = ""
-        for (inst <- extractionInstances) {
+        // store sentence index
+        // Here ollie triples are extracted and coreference are
+        // replaced by there representative phrases.
+        var ind = 0
+        var extractions = new MutableList[Extraction]
+        for (line <- sentences) {
+            val parsed = parser.dependencyGraph(line)
+            val extractionInstances = ollie.extract(parsed)
 
-            for (coref <- corefs) {
-                repr = coref.representative
-                arg1 = inst.extraction.arg1.text
-                arg2 = inst.extraction.arg2.text
-                rel = inst.extraction.rel.text
+            var repr = ""
+            var arg1 = ""
+            var arg2 = ""
+            var rel = ""
+            for (inst <- extractionInstances) {
 
-                if (coref.sentence == ind) {
-                    if (coref.coref == arg1) {
-                        arg1 = repr
-                    }
+                for (coref <- corefs) {
+                    repr = coref.representative
+                    arg1 = inst.extraction.arg1.text
+                    arg2 = inst.extraction.arg2.text
+                    rel = inst.extraction.rel.text
 
-                    if (coref.coref == arg2) {
-                        arg2 = repr
+                    if (coref.sentence == ind) {
+                        if (coref.coref == arg1) {
+                            arg1 = repr
+                        }
+
+                        if (coref.coref == arg2) {
+                            arg2 = repr
+                        }
                     }
                 }
-            }
-            extractions += new Extraction(arg1, rel, arg2)
+                extractions += new Extraction(arg1, rel, arg2)
 
+            }
+            ind = ind + 1
         }
-        ind = ind + 1
+        return new ExtractionsList(extractions)
     }
 }

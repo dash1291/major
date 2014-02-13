@@ -57,6 +57,13 @@
      <version>2.0</version>
      <classifier>models</classifier>
     </dependency>
+
+    <!-- ZeroMQ -->
+    <dependency>
+      <groupId>org.zeromq</groupId>
+      <artifactId>jeromq</artifactId>
+      <version>0.3.2</version>
+    </dependency>
   </dependencies>
 
   <build>

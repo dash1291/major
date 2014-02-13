@@ -15,7 +15,7 @@ object ExtractorService {
     def launchServer(port:Int) {
         val context = ZMQ.context(1)
         val clients = context.socket(ZMQ.ROUTER)
-        clients.bind("tcp://0.0.0.0:8080")
+        clients.bind("tcp://0.0.0.0:" + port)
 
         val workers = context.socket(ZMQ.DEALER)
         workers.bind("inproc://workers")

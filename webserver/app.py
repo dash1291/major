@@ -32,7 +32,6 @@ def graph():
         f = request.files['file']
         f.save('/tmp/doc.txt')
         pairs = pipeline('/tmp/doc.txt')
-
         edges = []
         for pair in pairs:
             n1 = pair[0]

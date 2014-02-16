@@ -1,0 +1,35 @@
+{% extends "home.html" %}
+{% block main %}
+<div class="rw">
+	<div class="col-lg-6 col-sm-offset-3">
+		<form class="form-horizontal well">
+			<fieldset>
+				<legend>Sign up to Conceptual</legend>
+				<div class="form-group">
+					<label class="form-label col-lg-2" for="input-email">Email</label>
+					<div class="col-lg-10">
+						<input id="input-email" type="text" class="form-control" size="35" placeholder="Email address">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-lg-2" for="input-pass">Password</label>
+					<div class="col-lg-10">
+						<input id="input-pass" type="password" class="form-control" placeholder="Password">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="form-label col-lg-2" for="input-repass">Retype Password</label>
+					<div class="col-lg-10">
+						<input id="input-repass" type="password" class="form-control" placeholder="Retype Password">
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-lg-10 col-lg-offset-2">
+						<a href="#" class="btn btn-large btn-primary">Sign up</a>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+</div>
+{% endblock %}

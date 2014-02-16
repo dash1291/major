@@ -4,6 +4,10 @@ from py2neo import neo4j
 
 
 def home(request):
+    return render(request, 'landing.html')
+
+
+def play(request):
     return render(request, 'new.html')
 
 
@@ -21,6 +25,10 @@ def browse(request):
             break
 
     return render(request, 'browse.html', {'concepts': concepts})
+
+
+def signup(request):
+    return render(request, 'signup.html')
 
 
 def dashboard(request):

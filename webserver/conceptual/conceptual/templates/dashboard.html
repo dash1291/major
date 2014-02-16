@@ -1,0 +1,43 @@
+<!doctype html>
+<html ng-app="dashboard">
+    <head>
+        <meta charset="utf-8">
+        <title>Dashboard</title>
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <script src="lib/angular/angular.min.js"></script>
+        <script src="lib/angular/angular-route.min.js"></script>
+        <script src="js/app.js"></script>
+        <script src="js/controllers.js"></script>
+    </head>
+    <body>
+        <div class="navbar navbar-default">
+            <div class="container">
+                <div class="navbar-header">
+                    <a href="/" class="navbar-brand">Conceptual</a>
+                </div>
+                <div class="navbar-collapse collapse navbar-responsive-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active">
+                            <a>Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="/browse" id="browse">Browse</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="main" id="main">
+                <div class="col-md-3">
+                    <ul>
+                        <li><a href="#/websites">Websites</a></li>
+                        <li><a href="#/pages">Pages</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-9" ng-view></div>
+            </div>
+        </div>
+
+    </body>
+</html>

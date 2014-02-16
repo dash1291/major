@@ -17,5 +17,7 @@ urlpatterns = patterns('',
 
     url(r'^$', webapp.home),
     url(r'^browse/', webapp.browse),
-    url(r'^dashboard/', webapp.dashboard),
+    url(r'^dashboard/$', webapp.dashboard),
+   	url(r'^dashboard/(?P<path>.*)$', 'django.views.static.serve',
+   		{'document_root': 'dashboard'})
 )

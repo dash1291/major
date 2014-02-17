@@ -4,9 +4,12 @@
         <meta charset="utf-8">
         <title>Dashboard</title>
         <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link href="css/bootstrap-glyphicons.css" rel="stylesheet">
         <link rel="stylesheet" href="css/app.css">
         <script src="lib/angular/angular.min.js"></script>
         <script src="lib/angular/angular-route.min.js"></script>
+        <script src="js/jquery-2.1.0.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
         <script src="js/app.js"></script>
         <script src="js/controllers.js"></script>
     </head>
@@ -19,7 +22,7 @@
                 <div class="navbar-collapse collapse navbar-responsive-collapse">
                     <ul class="nav navbar-nav">
                         <li>
-                            <a href="/dashboard">Dashboard</a>
+                           <a href="/dashboard">Dashboard</a>
                         </li>
                         <li>
                             <a href="/play" id="btn-generate-new">Play</a>
@@ -35,9 +38,10 @@
             <div class="main" id="main">
                 <div class="menu col-md-3">
                     <ul>
-                        <li><a href="#/websites">Websites</a></li>
-                        <li><a href="#/pages">Pages</a></li>
-                        <li><a href="#/embed">Embed</a></li>
+                        <li><a href="#/websites"> <span class="glyphicon glyphicon-folder-open"></span> Websites</a></li>
+                        <li><a href="#/pages"><span class="glyphicon glyphicon-file"></span> Pages</a></li>
+                        <li><a href="#/embed"><span class="glyphicon glyphicon-link"></span> Embed</a></li>
+                        <li><a href="#/settings"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
                     </ul>
                 </div>
                 <div class="col-md-9">

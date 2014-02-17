@@ -17,8 +17,12 @@ angular.module('dashboard', [
         {templateUrl: 'partials/pages.html',
          controller: 'pages'
     });
-     $routeProvider.when('/embed',
+    $routeProvider.when('/embed',
         {templateUrl: 'partials/embed.html',
          controller: 'embed'
+    });
+    $routeProvider.when('/settings',
+        {templateUrl: 'partials/settings.html',
+         controller: 'settings'
     });
 }]);

@@ -1,13 +1,39 @@
 <div class="panel-heading">Pages</div>
 <div class="panel-body">
-    <button class="btn btn-primary btn-md">Add Page...</button>
+    <div class="pages-panel-head">
+        <div class="col-lg-6">
+            <button class="btn btn-primary btn-md">Add Page</button>
+        </div>
+        <div class="btn-group col-lg-6">
+            <span>Website </span>
+            <button class="btn-sites-dropdown dropdown-toggle" data-toggle="dropdown">
+              ashishdubey.info
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+              <li><a href="#">ashishdubey1.dinfo</a></li>
+              <li><a href="#">ashishdubey2.info</a></li>
+            </ul>
+        </div>
+    </div>
+
     <div class="pages-container">
-        <ul ng-if="pages.length">
-            <li ng-repeat="page in pages">
-              {{ page.name }}
-              <p>{{ page.address }}</p>
-            </li>
-        </ul>
+        <div class="websites-container">
+        <div ng-if="sites.length">
+            <div class="col-lg-4 site-container" ng-repeat="site in sites">
+                <div class="site-address"><a href="{{ site.address }}">{{ site.domain }}</a></div>
+
+            </div>
+        </div>
+        <p ng-if="!sites.length">No websites configured.</p>
+    </div>
+        <div ng-if="pages.length">
+            <div ng-repeat="page in pages">
+                <span>{{ page.url }}</span>
+                <div><a class="site-action site-remove" href="#/websites"><span class="glyphicon glyphicon-remove"></span></a>
+                <a href="#/websites" class="site-action site-edit"><span class="glyphicon glyphicon-pencil"></span></div>
+            </div>
+        </div>
         <p ng-if="!pages.length">No pages configured.</p>
     </div>
 </div>

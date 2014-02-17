@@ -2,6 +2,10 @@ html, body {
 	height: 100%;
 }
 
+.menu ul {
+
+}
+
 .menu li {
 	list-style: none;
 }
@@ -9,8 +13,8 @@ html, body {
 .menu a {
 	color: #222;
 	display: block;
-	font-size: 20px;
-	line-height: 1.5em;
+	font-size: 18px;
+	line-height: 1.8em;
 	padding: 10px;
 	text-decoration: none;
 }
@@ -20,9 +24,46 @@ html, body {
 }
 
 .websites-container, .pages-container {
-	margin-top: 10px;
+	margin-top: 20px;
 }
 
 .panel-dashboard {
 	height: 100%;
+}
+
+.site-address {
+	font-size: 18px;
+	margin-bottom: 4px;
+}
+
+.site-container {
+	height: 50px;
+	margin-bottom: 10px;
+}
+
+.site-address {
+	padding-top: 5px;
+}
+
+.site-action {
+	color: #555;
+	font-size: 18px;
+	margin-right: 4px;
+}
+
+.site-remove:hover {
+	color: #aa0000;
+}
+
+.pages-panel-head {
+	height: 40px;
+}
+
+.btn-sites-dropdown {
+	background-color: #eee;
+	border: 1px solid #ccc;
+	font-weight: bold;
+	margin-left: 5px;
+	padding: 10px 0 10px 0;
+	width: 200px;
 }

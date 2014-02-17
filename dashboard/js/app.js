@@ -5,6 +5,10 @@ angular.module('dashboard', [
     'ngRoute',
     'dashboard.controllers'
 ]).config(['$routeProvider', function($routeProvider) {
+    $routeProvider.when('/',
+        {templateUrl: 'partials/home.html',
+         controller: 'home'
+    });
     $routeProvider.when('/websites',
         {templateUrl: 'partials/websites.html',
          controller: 'websites'
@@ -12,5 +16,9 @@ angular.module('dashboard', [
     $routeProvider.when('/pages',
         {templateUrl: 'partials/pages.html',
          controller: 'pages'
+    });
+     $routeProvider.when('/embed',
+        {templateUrl: 'partials/embed.html',
+         controller: 'embed'
     });
 }]);

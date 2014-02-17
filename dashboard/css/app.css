@@ -1,0 +1,28 @@
+html, body {
+	height: 100%;
+}
+
+.menu li {
+	list-style: none;
+}
+
+.menu a {
+	color: #222;
+	display: block;
+	font-size: 20px;
+	line-height: 1.5em;
+	padding: 10px;
+	text-decoration: none;
+}
+
+.menu a:hover {
+	color: #666;
+}
+
+.websites-container, .pages-container {
+	margin-top: 10px;
+}
+
+.panel-dashboard {
+	height: 100%;
+}

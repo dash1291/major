@@ -1,1 +1,13 @@
-<p>Here you can list all your websites.</p>
+<div class="panel-heading">Websites</div>
+<div class="panel-body">
+    <button class="btn btn-primary btn-md">Add Website...</button>
+    <div class="websites-container">
+        <ul ng-if="sites.length">
+            <li ng-repeat="site in sites">
+              {{ site.name }}
+              <p>{{ site.domain }}</p>
+            </li>
+        </ul>
+        <p ng-if="!sites.length">No websites configured.</p>
+    </div>
+</div>

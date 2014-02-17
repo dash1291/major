@@ -1,1 +1,14 @@
-<p>Here you can list all your pages for a selected website.</p>
+<div class="panel-heading">Pages</div>
+<div class="panel-body">
+    <button class="btn btn-primary btn-md">Add Page...</button>
+    <div class="pages-container">
+        <ul ng-if="pages.length">
+            <li ng-repeat="page in pages">
+              {{ page.name }}
+              <p>{{ page.address }}</p>
+            </li>
+        </ul>
+        <p ng-if="!pages.length">No pages configured.</p>
+    </div>
+</div>
+

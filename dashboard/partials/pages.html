@@ -18,23 +18,22 @@
     </div>
 
     <div class="pages-container">
-        <div class="websites-container">
-        <div ng-if="sites.length">
-            <div class="col-lg-4 site-container" ng-repeat="site in sites">
-                <div class="site-address"><a href="{{ site.address }}">{{ site.domain }}</a></div>
-
-            </div>
-        </div>
-        <p ng-if="!sites.length">No websites configured.</p>
-    </div>
-        <div ng-if="pages.length">
-            <div ng-repeat="page in pages">
-                <span>{{ page.url }}</span>
-                <div><a class="site-action site-remove" href="#/websites"><span class="glyphicon glyphicon-remove"></span></a>
-                <a href="#/websites" class="site-action site-edit"><span class="glyphicon glyphicon-pencil"></span></div>
-            </div>
-        </div>
-        <p ng-if="!pages.length">No pages configured.</p>
+      <table class="table table-striped table-hover" ng-if="pages.length">
+        <thead>
+            <tr>
+                <th>URL</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="page in pages">
+                <td><span>{{ page.url }}</span></td>
+                <td><div><a class="site-action site-remove" href="#/websites"><span class="glyphicon glyphicon-remove"></span></a>
+                <a href="#/websites" class="site-action site-edit"><span class="glyphicon glyphicon-pencil"></span></a></div></td>
+            </tr>
+        </tbody>
+    </table>
+    <p ng-if="!pages.length">No pages configured.</p>
     </div>
 </div>
 

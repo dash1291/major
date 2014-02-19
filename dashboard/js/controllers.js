@@ -26,7 +26,8 @@ dashboardControllers.controller('pages',
     function($scope, $routeParams) {
         $scope.pages = [
             {url: '/home.html'},
-            {url: '/about.html'}
+            {url: '/about.html'},
+            {url: '/post1.html'}
         ];
     }
 ]);

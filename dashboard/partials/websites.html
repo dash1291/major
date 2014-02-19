@@ -1,12 +1,16 @@
 <div class="panel-heading">Websites</div>
 <div class="panel-body">
-    <button class="btn btn-primary btn-md">Add Website</button>
+    <div class="pages-panel-head">
+        <div class="col-lg-12">
+            <button class="btn btn-primary btn-md">Add Website</button>
+        </div>
+    </div>
     <div class="websites-container">
         <div ng-if="sites.length">
             <div class="col-lg-4 site-container" ng-repeat="site in sites">
                 <div class="site-address"><a href="{{ site.address }}">{{ site.domain }}</a></div>
                 <a class="site-action site-remove" href="#/websites"><span class="glyphicon glyphicon-remove"></span></a>
-                <a href="#/websites" class="site-action site-edit"><span class="glyphicon glyphicon-pencil"></span>
+                <a href="#/websites" class="site-action site-edit"><span class="glyphicon glyphicon-pencil"></span></a>
             </div>
         </div>
         <p ng-if="!sites.length">No websites configured.</p>

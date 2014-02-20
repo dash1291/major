@@ -3,7 +3,7 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 admin.autodiscover()
 
-import views as webapp
+import webapp.views as webapp
 from api.urls import router
 
 
@@ -21,6 +21,6 @@ urlpatterns = patterns('',
     url(r'^signup/', webapp.signup),
 
     url(r'^dashboard/$', webapp.dashboard),
-   	url(r'^dashboard/(?P<path>.*)$', 'django.views.static.serve',
-   		{'document_root': 'dashboard'})
+    url(r'^dashboard/(?P<path>.*)$', 'django.views.static.serve',
+        {'document_root': 'dashboard'})
 )

@@ -19,6 +19,9 @@ urlpatterns = patterns('',
     url(r'^play/', webapp.play),
     url(r'^browse/', webapp.browse),
     url(r'^signup/', webapp.signup),
+    url(r'^signin/', webapp.signin),
+    url(r'^logout/', webapp.signout),
+
 
     url(r'^dashboard/$', webapp.dashboard),
     url(r'^dashboard/(?P<path>.*)$', 'django.views.static.serve',

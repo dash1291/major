@@ -1,4 +1,8 @@
-from django.shortcuts import render
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.shortcuts import redirect, render
+from django.views.decorators.csrf import csrf_exempt
 
 from py2neo import neo4j
 
@@ -27,9 +31,40 @@ def browse(request):
     return render(request, 'browse.html', {'concepts': concepts})
 
 
+@csrf_exempt
 def signup(request):
-    return render(request, 'signup.html')
+    if request.method == 'POST':
+        # TODO:: Do some typical checks and show errors if found
+        email = request.POST['email']
+        password = request.POST['password']
+
+        User.objects.create_user(email, email, password)
+        login(request, authenticate(username=email, password=password))
+        return redirect('/dashboard')
+    else:
+        return render(request, 'signup.html')
 
 
+@csrf_exempt
+def signin(request):
+    if request.method == 'POST':
+        uname = request.POST['email']
+        password = request.POST['password']
+
+        user = authenticate(username=uname, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('/dashboard')
+    else:
+        return render(request, 'signin.html')
+
+
+@csrf_exempt
+def signout(request):
+    logout(request)
+    return redirect('/signin')
+
+
+@login_required
 def dashboard(request):
     return render(request, 'dashboard.html')

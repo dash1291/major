@@ -104,3 +104,6 @@ TEMPLATE_DIRS = (
 STATICFILES_DIRS = (
     "conceptual/static",
 )
+
+LOGIN_URL = '/signin'
+

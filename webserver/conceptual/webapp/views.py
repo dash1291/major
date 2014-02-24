@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.core.context_processors import csrf
 from django.shortcuts import redirect, render
 from django.views.decorators.csrf import csrf_exempt
 
@@ -31,7 +32,6 @@ def browse(request):
     return render(request, 'browse.html', {'concepts': concepts})
 
 
-@csrf_exempt
 def signup(request):
     if request.method == 'POST':
         # TODO:: Do some typical checks and show errors if found
@@ -42,7 +42,9 @@ def signup(request):
         login(request, authenticate(username=email, password=password))
         return redirect('/dashboard')
     else:
-        return render(request, 'signup.html')
+        c = {}
+        c.update(csrf(request))
+        return render(request, 'signup.html', c)
 
 
 @csrf_exempt
@@ -56,7 +58,9 @@ def signin(request):
             login(request, user)
             return redirect('/dashboard')
     else:
-        return render(request, 'signin.html')
+        c = {}
+        c.update(csrf(request))
+        return render(request, 'signin.html', c)
 
 
 @csrf_exempt

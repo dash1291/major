@@ -3,6 +3,7 @@
 <div class="rw">
 	<div class="col-lg-6 col-sm-offset-3">
 		<form class="form-horizontal well" action="/signin/" method="POST">
+			{% csrf_token %}
 			<fieldset>
 				<legend>Sign in</legend>
 				<div class="form-group">

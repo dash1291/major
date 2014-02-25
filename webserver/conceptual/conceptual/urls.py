@@ -7,7 +7,6 @@ import webapp.views as webapp
 from api.urls import router
 
 
-
 urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'conceptual.views.home', name='home'),

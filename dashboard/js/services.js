@@ -1,3 +1,5 @@
+'use strict';
+
 var conceptualServices = angular.module('dashboard.services', ['ngResource']);
 
 conceptualServices.factory('profile',

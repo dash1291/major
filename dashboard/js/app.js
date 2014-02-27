@@ -3,7 +3,8 @@
 // Declare app level module which depends on filters, and services
 angular.module('dashboard', [
     'ngRoute',
-    'dashboard.controllers'
+    'dashboard.controllers',
+    'dashboard.services'
 ]).config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/',
         {templateUrl: 'partials/home.html',

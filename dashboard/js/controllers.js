@@ -1,10 +1,10 @@
+'use strict';
+
 var dashboardControllers = angular.module('dashboard.controllers', []);
 
 dashboardControllers.controller('home',
     ['$scope', '$http',
-    function ($scope, $http) {
-
-    }
+    function () {}
 ]);
 
 dashboardControllers.controller('profile',
@@ -23,23 +23,21 @@ dashboardControllers.controller('websites',
 
 dashboardControllers.controller('pages',
     ['$scope', '$routeParams',
-    function($scope, $routeParams) {
+    function($scope) {
         $scope.pages = [
             {url: '/home.html'},
             {url: '/about.html'},
             {url: '/post1.html'}
-        ];
+          ];
     }
 ]);
 
 dashboardControllers.controller('embed',
     ['$scope', '$routeParams',
-    function($scope, $routeParams) {
-    }
+    function() {}
 ]);
 
 dashboardControllers.controller('settings',
     ['$scope', '$routeParams',
-    function($scope, $routeParams) {
-    }
+    function() {}
 ]);

@@ -7,17 +7,17 @@ dashboardControllers.controller('home',
     }
 ]);
 
+dashboardControllers.controller('profile',
+    ['$scope', 'profile',
+    function ($scope, profile) {
+        $scope.profile = profile.query();
+    }
+]);
+
 dashboardControllers.controller('websites',
-    ['$scope', '$http',
-    function ($scope, $http) {
-        $scope.sites = [
-            {name: 'blog', domain: 'ashishdubey.com'},
-            {name: 'blog2', domain: 'ashishdubey1.com'},
-            {name: 'blog3', domain: 'ashishdubey1.com'},
-            {name: 'blog3', domain: 'ashishdubey1.com'}
-
-
-        ];
+    ['$scope', 'Website',
+    function ($scope, website) {
+        $scope.sites = website.query();
     }
 ]);
 

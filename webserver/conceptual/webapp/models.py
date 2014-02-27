@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 
 class Website(models.Model):
-	user = models.ForeignKey(User)
+	user = models.ForeignKey(User, related_name='websites')
 	name = models.CharField(null=True, max_length=100)
 	url = models.URLField()
 
@@ -11,4 +11,4 @@ class Website(models.Model):
 class Page(models.Model):
 	name = models.CharField(null=True, max_length=100)
 	url = models.URLField()
-	website = models.ForeignKey(Website)
+	website = models.ForeignKey(Website, related_name='pages')

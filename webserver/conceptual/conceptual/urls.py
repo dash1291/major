@@ -4,14 +4,14 @@ from django.contrib import admin
 admin.autodiscover()
 
 import webapp.views as webapp
-from api.urls import router
+from api.urls import api_urls
 
 
 urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'conceptual.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
-    url(r'^api/', include(router.urls)),
+    url(r'^api/', include(api_urls)),
     url(r'^admin/', include(admin.site.urls)),
 
     url(r'^$', webapp.home),

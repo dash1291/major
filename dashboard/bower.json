@@ -1,0 +1,12 @@
+{
+  "name": "major",
+  "version": "0.0.1",
+  "dependencies": {
+    "angular": "1.2.13",
+    "jquery": "~1.10.2",
+    "bootstrap": "~3.0.3",
+    "angular-resource": "1.2.13",
+    "angular-route": "1.2.13",
+    "angular-ui-router": "0.2.8-bowratic-tedium"
+  }
+}

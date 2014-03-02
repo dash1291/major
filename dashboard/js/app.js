@@ -4,7 +4,8 @@
 angular.module('dashboard', [
     'ngRoute',
     'dashboard.controllers',
-    'dashboard.services'
+    'dashboard.services',
+    'dashboard.directives'
 ]).config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/',
         {templateUrl: 'partials/home.html',

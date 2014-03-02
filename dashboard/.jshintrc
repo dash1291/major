@@ -1,5 +1,8 @@
 {
+  "browser": true,
+  "devel": true,
   "undef": true,
   "unused": true,
-  "globals": { "angular": false, "$": false }
+  "globals": { "angular": false, "$": false },
+  "globalstrict": true
 }

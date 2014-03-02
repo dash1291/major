@@ -10,14 +10,17 @@ dashboardControllers.controller('home',
 dashboardControllers.controller('profile',
     ['$scope', 'profile',
     function ($scope, profile) {
-        $scope.profile = profile.query();
+        $scope.profile = profile.get();
     }
 ]);
 
 dashboardControllers.controller('websites',
-    ['$scope', 'Website',
-    function ($scope, website) {
-        $scope.sites = website.query();
+    ['$scope', 'websites',
+    function ($scope) {
+
+        $scope.sites = [
+            {name: 'ashishdubey', domain: 'ashishdubey.com'}
+        ];
     }
 ]);
 
@@ -28,7 +31,7 @@ dashboardControllers.controller('pages',
             {url: '/home.html'},
             {url: '/about.html'},
             {url: '/post1.html'}
-          ];
+        ];
     }
 ]);
 

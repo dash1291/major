@@ -22,15 +22,6 @@ def profile(request):
 	})
 
 
-@api_view(['GET'])
-def embed(request, website_id):
-    site = get_object_or_404(Website, pk=website_id)
-
-    return Response({
-        'embed_src': site.embed_src
-    })
-
-
 class WebsiteViewSet(viewsets.ModelViewSet):
     model = Website
 

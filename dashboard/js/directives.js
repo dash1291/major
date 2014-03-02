@@ -13,7 +13,7 @@ dashboardDirectives.directive('editButton', function() {
     };
 });
 
-dashboardDirectives.directive('btnWebsiteSave', ['websites',
+dashboardDirectives.directive('btnWebsiteUpdate', ['websites',
     function(websites) {
         return {
             restrict: 'A',
@@ -25,6 +25,26 @@ dashboardDirectives.directive('btnWebsiteSave', ['websites',
                     websites.save({
                         name: name,
                         address: addr
+                    });
+                });
+            }
+        };
+    }
+]);
+
+dashboardDirectives.directive('btnWebsiteAdd', ['websites',
+    function(websites) {
+        return {
+            restrict: 'A',
+            link: function(scope, element) {
+                element.bind('click', function() {
+                    var modal = $(element).closest('.modal');
+                    console.log(modal);
+                    var addr = modal.find('.address').val();
+                    var name = modal.find('.name').val();
+                    websites.save({
+                        name: name,
+                        url: addr
                     });
                 });
             }

@@ -16,11 +16,9 @@ dashboardControllers.controller('profile',
 
 dashboardControllers.controller('websites',
     ['$scope', 'websites',
-    function ($scope) {
+    function ($scope, websites) {
 
-        $scope.sites = [
-            {name: 'ashishdubey', domain: 'ashishdubey.com'}
-        ];
+        $scope.sites = websites.query();
     }
 ]);
 

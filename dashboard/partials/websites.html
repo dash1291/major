@@ -14,13 +14,13 @@
                         <form class="form-horizontal">
                             <div class="form-group">
                                 <div class="col-lg-8 col-lg-offset-2">
-                                    <input type="text" class="name form-control" size="35" placeholder="Alias">
+                                    <input type="text" class="name form-control" size="35" ng-model="newSite.name" placeholder="Alias">
                                     <p class="help-block">This is the name (Optional). E.g. My Blog</p>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-lg-8 col-lg-offset-2">
-                                    <input type="text" class="address form-control" size="35" placeholder="Address">
+                                    <input type="text" class="address form-control" size="35" ng-model="newSite.url" placeholder="Address">
                                     <p class="help-block">This is the address. E.g. example.com, www.example.com</p>
                                 </div>
                             </div>
@@ -28,7 +28,7 @@
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" btn-website-add class="btn btn-primary">Add</button>
+                        <button type="button" ng-click="addSite()" class="btn btn-primary">Add</button>
                       </div>
                     </div>
                 </div>
@@ -52,13 +52,13 @@
                                 <input type="hidden" value="{{ site.id }}">
                                 <div class="form-group">
                                     <div class="col-lg-8 col-lg-offset-2">
-                                        <input name="email" id="input-email" type="text" class="form-control" size="35" placeholder="Alias">
+                                        <input name="email" id="input-email" type="text" class="form-control" size="35" ng-model="site.updated.name" placeholder="Alias">
                                         <p class="help-block">This is the name (Optional).</p>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="col-lg-8 col-lg-offset-2">
-                                        <input name="password" id="input-pass" type="text" class="form-control" placeholder="Address">
+                                        <input name="password" id="input-pass" type="text" class="form-control" ng-model="site.updated.url" placeholder="Address">
                                         <p class="help-block">This is the address.</p>
                                     </div>
                                 </div>
@@ -66,14 +66,14 @@
                           </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="button" btn-website-update class="btn btn-primary">Save</button>
+                            <button type="button" ng-click="updateSite(site)" class="btn btn-primary">Save</button>
                           </div>
                         </div>
                     </div>
                 </div>
                 <div class="site-address"><a href="{{ site.url }}">{{ site.url }}</a></div>
                 <a remove-buttom class="site-action site-remove" href="#/websites"><span class="glyphicon glyphicon-remove"></span></a>
-                <a edit-button href="#/websites" class="site-action site-edit"><span class="glyphicon glyphicon-pencil"></span></a>
+                <a edit-button href="#/websites" ng-click="editSiteOpen(site)" class="site-action site-edit"><span class="glyphicon glyphicon-pencil"></span></a>
             </div>
         </div>
         <p ng-if="!sites.length">No websites configured.</p>

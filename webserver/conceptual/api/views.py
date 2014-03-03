@@ -1,7 +1,5 @@
 from hashlib import md5
 
-from django.shortcuts import get_object_or_404
-
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -31,6 +29,8 @@ class WebsiteViewSet(viewsets.ModelViewSet):
     def get_serializer(self, instance=None, data=None,
                        files=None, many=False, partial=False):
         if self.action in ['update', 'create']:
+            # Inject current user's id into the data so that its not required
+            # in the request payload.
             data['user'] = self.request.user.id
 
         return super(WebsiteViewSet, self).get_serializer(instance, data,

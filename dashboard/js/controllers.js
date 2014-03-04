@@ -28,8 +28,6 @@ dashboardControllers.controller('websites',
             };
         };
 
-        $scope.tmpSite = {};
-
         $scope.editSiteOpen = function(site) {
             site.updated = {
                 'name': site.name,
@@ -48,13 +46,32 @@ dashboardControllers.controller('websites',
 ]);
 
 dashboardControllers.controller('pages',
-    ['$scope', '$routeParams',
-    function($scope) {
-        $scope.pages = [
-            {url: '/home.html'},
-            {url: '/about.html'},
-            {url: '/post1.html'}
-        ];
+    ['$scope', 'websites', 'pages',
+    function($scope, websites, pages) {
+        var selectedSiteId;
+
+        var sites = websites.query();
+        $scope.sites = sites;
+
+        sites.$promise.then(function(sites) {
+            selectedSiteId = sites[0].id;
+            $scope.pages = pages.query({websiteId: sites[0].id});
+        });
+
+        $scope.selectSite = function(site) {
+            selectedSiteId = site.id;
+            $scope.pages = pages.query({websiteId: site.id});
+        };
+
+        $scope.newPage = {};
+        $scope.addPage = function() {
+            pages.save({websiteId: selectedSiteId}, $scope.newPage);
+            $scope.pages.push($scope.newPage);
+            $scope.newPage = {
+                name: '',
+                url: ''
+            };
+        };
     }
 ]);
 

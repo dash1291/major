@@ -41,6 +41,11 @@ dashboardControllers.controller('websites',
             site.url = site.updated.url;
         };
 
+        $scope.deleteSite = function(site) {
+            Website.delete({websiteId: site.id});
+            $scope.sites.pop(site);
+        };
+
         $scope.sites = Website.query();
     }
 ]);
@@ -84,6 +89,11 @@ dashboardControllers.controller('pages',
             Page.update({websiteId: selectedSiteId, pageId: page.id}, page.updated);
             page.name = page.updated.name;
             page.url = page.updated.url;
+        };
+
+        $scope.deletePage = function(page) {
+            Page.delete({websiteId: selectedSiteId, pageId: page.id});
+            $scope.pages.pop(page);
         };
     }
 ]);

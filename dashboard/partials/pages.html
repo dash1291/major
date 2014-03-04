@@ -92,7 +92,26 @@
                                 </div>
                             </div>
                         </div>
-                        <a class="site-action site-remove" href="#/websites">
+                        <!-- Modal window -->
+                        <div class="modal delete fade">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title">Delete Page</h4>
+                                  </div>
+                                  <div class="modal-body">
+                                    <p>Deleting {{ page.url }}</p>
+                                    <p class="text-warning">This action can not be undone.</p>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                    <button type="button" ng-click="deletePage(page)" class="btn btn-danger btn-primary">Delete</button>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a delete-button class="site-action site-remove" href="#/pages">
                             <span class="glyphicon glyphicon-remove"></span>
                         </a>
                         <a edit-button href="#/pages" ng-click="editPageOpen(page)"class="site-action site-edit">

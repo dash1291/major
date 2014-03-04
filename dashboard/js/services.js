@@ -7,14 +7,14 @@ conceptualServices.config(['$httpProvider', function($http) {
     $http.defaults.xsrfHeaderName = 'X-CSRFToken';
 }]);
 
-conceptualServices.factory('profile',
+conceptualServices.factory('Profile',
     ['$resource',
     function($resource) {
         return $resource('/api/profile/');
     }
 ]);
 
-conceptualServices.factory('websites',
+conceptualServices.factory('Website',
     ['$resource',
     function($resource) {
         return $resource('/api/websites/:websiteId', {}, {
@@ -24,7 +24,7 @@ conceptualServices.factory('websites',
     }
 ]);
 
-conceptualServices.factory('pages',
+conceptualServices.factory('Page',
     ['$resource',
     function($resource) {
         return $resource('/api/websites/:websiteId/pages/:pageId', {}, {

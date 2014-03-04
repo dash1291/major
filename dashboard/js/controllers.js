@@ -8,19 +8,19 @@ dashboardControllers.controller('home',
 ]);
 
 dashboardControllers.controller('profile',
-    ['$scope', 'profile',
-    function ($scope, profile) {
-        $scope.profile = profile.get();
+    ['$scope', 'Profile',
+    function ($scope, Profile) {
+        $scope.profile = Profile.get();
     }
 ]);
 
 dashboardControllers.controller('websites',
-    ['$scope', 'websites',
-    function ($scope, websites) {
+    ['$scope', 'Website',
+    function ($scope, Website) {
         $scope.newSite = {};
 
         $scope.addSite = function() {
-            websites.save($scope.newSite);
+            Website.save($scope.newSite);
             $scope.sites.push($scope.newSite);
             $scope.newSite = {
                 name: '',
@@ -36,36 +36,36 @@ dashboardControllers.controller('websites',
         };
 
         $scope.updateSite = function(site) {
-            websites.update({websiteId: site.id}, site.updated);
+            Website.update({websiteId: site.id}, site.updated);
             site.name = site.updated.name;
             site.url = site.updated.url;
         };
 
-        $scope.sites = websites.query();
+        $scope.sites = Website.query();
     }
 ]);
 
 dashboardControllers.controller('pages',
-    ['$scope', 'websites', 'pages',
-    function($scope, websites, pages) {
+    ['$scope', 'Website', 'Page',
+    function($scope, Website, Page) {
         var selectedSiteId;
 
-        var sites = websites.query();
+        var sites = Website.query();
         $scope.sites = sites;
 
         sites.$promise.then(function(sites) {
             selectedSiteId = sites[0].id;
-            $scope.pages = pages.query({websiteId: sites[0].id});
+            $scope.pages = Page.query({websiteId: sites[0].id});
         });
 
         $scope.selectSite = function(site) {
             selectedSiteId = site.id;
-            $scope.pages = pages.query({websiteId: site.id});
+            $scope.pages = Page.query({websiteId: site.id});
         };
 
         $scope.newPage = {};
         $scope.addPage = function() {
-            pages.save({websiteId: selectedSiteId}, $scope.newPage);
+            Page.save({websiteId: selectedSiteId}, $scope.newPage);
             $scope.pages.push($scope.newPage);
             $scope.newPage = {
                 name: '',

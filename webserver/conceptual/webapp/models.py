@@ -11,5 +11,5 @@ class Website(models.Model):
 
 class Page(models.Model):
     name = models.CharField(null=True, max_length=100)
-    url = models.URLField()
+    url = models.CharField(max_length=200)
     website = models.ForeignKey(Website, related_name='pages')

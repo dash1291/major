@@ -72,6 +72,19 @@ dashboardControllers.controller('pages',
                 url: ''
             };
         };
+
+        $scope.editPageOpen = function(page) {
+            page.updated = {
+                'name': page.name,
+                'url': page.url
+            };
+        };
+
+        $scope.updatePage = function(page) {
+            Page.update({websiteId: selectedSiteId, pageId: page.id}, page.updated);
+            page.name = page.updated.name;
+            page.url = page.updated.url;
+        };
     }
 ]);
 

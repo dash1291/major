@@ -58,8 +58,48 @@
         <tbody>
             <tr ng-repeat="page in pages">
                 <td><span>{{ page.url }}</span></td>
-                <td><div><a class="site-action site-remove" href="#/websites"><span class="glyphicon glyphicon-remove"></span></a>
-                <a href="#/websites" class="site-action site-edit"><span class="glyphicon glyphicon-pencil"></span></a></div></td>
+                <td>
+                    <div>
+                         <!-- Modal window -->
+                        <div class="modal fade">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title">Edit Page</h4>
+                                  </div>
+                                  <div class="modal-body">
+                                    <form class="form-horizontal">
+                                        <input type="hidden" value="{{ page.id }}">
+                                        <div class="form-group">
+                                            <div class="col-lg-8 col-lg-offset-2">
+                                                <input name="email" id="input-email" type="text" class="form-control" size="35" ng-model="page.updated.name" placeholder="Alias">
+                                                <p class="help-block">This is the name (Optional). E.g. About Page, My Weekend Research</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-8 col-lg-offset-2">
+                                                <input name="password" id="input-pass" type="text" class="form-control" ng-model="page.updated.url" placeholder="Address">
+                                                <p class="help-block">This is the address. E.g. /about, /2013/08/12/weekend_research.html</p>
+                                            </div>
+                                        </div>
+                                    </form>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="button" ng-click="updatePage(page)" class="btn btn-primary">Save</button>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a class="site-action site-remove" href="#/websites">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </a>
+                        <a edit-button href="#/pages" ng-click="editPageOpen(page)"class="site-action site-edit">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </a>
+                    </div>
+                </td>
             </tr>
         </tbody>
     </table>

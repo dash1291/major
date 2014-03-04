@@ -2,7 +2,7 @@
 <div class="panel-body">
     <div class="pages-panel-head">
         <div class="col-lg-12">
-            <!-- Modal window -->
+            <!-- Add Website modal window -->
             <div id="modal-add-website" class="modal fade">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -33,66 +33,65 @@
                     </div>
                 </div>
             </div>
+            <!-- Delete Website modal window -->
+            <div id="modal-delete-website" class="modal delete fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Delete Website</h4>
+                      </div>
+                      <div class="modal-body">
+                        <p>Deleting {{ deleted.url }}</p>
+                        <p class="text-warning">This action can not be undone.</p>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="button" ng-click="deleteSite()" class="btn btn-danger btn-primary">Delete</button>
+                      </div>
+                    </div>
+                </div>
+            </div>
+             <!-- Edit Website window -->
+            <div id="modal-edit-website" class="modal edit fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Edit Website</h4>
+                      </div>
+                      <div class="modal-body">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <div class="col-lg-8 col-lg-offset-2">
+                                    <input name="email" id="input-email" type="text" class="form-control" size="35" ng-model="updated.name" placeholder="Alias">
+                                    <p class="help-block">This is the name (Optional).</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-8 col-lg-offset-2">
+                                    <input name="password" id="input-pass" type="text" class="form-control" ng-model="updated.url" placeholder="Address">
+                                    <p class="help-block">This is the address.</p>
+                                </div>
+                            </div>
+                        </form>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" ng-click="updateSite()" class="btn btn-primary">Save</button>
+                      </div>
+                    </div>
+                </div>
+            </div>
             <button data-toggle="modal" data-target="#modal-add-website" class="btn btn-primary btn-md">Add Website</button>
         </div>
     </div>
     <div class="websites-container">
         <div ng-if="sites.length">
             <div class="col-lg-4 site-container" ng-repeat="site in sites">
-                <!-- Modal window -->
-                <div class="modal edit fade">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title">Edit Website</h4>
-                          </div>
-                          <div class="modal-body">
-                            <form class="form-horizontal">
-                                <input type="hidden" value="{{ site.id }}">
-                                <div class="form-group">
-                                    <div class="col-lg-8 col-lg-offset-2">
-                                        <input name="email" id="input-email" type="text" class="form-control" size="35" ng-model="site.updated.name" placeholder="Alias">
-                                        <p class="help-block">This is the name (Optional).</p>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-lg-8 col-lg-offset-2">
-                                        <input name="password" id="input-pass" type="text" class="form-control" ng-model="site.updated.url" placeholder="Address">
-                                        <p class="help-block">This is the address.</p>
-                                    </div>
-                                </div>
-                            </form>
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="button" ng-click="updateSite(site)" class="btn btn-primary">Save</button>
-                          </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Modal window -->
-                <div class="modal delete fade">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title">Delete Website</h4>
-                          </div>
-                          <div class="modal-body">
-                            <p>Deleting {{ site.url }}</p>
-                            <p class="text-warning">This action can not be undone.</p>
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                            <button type="button" ng-click="deleteSite(site)" class="btn btn-danger btn-primary">Delete</button>
-                          </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="site-address"><a href="{{ site.url }}">{{ site.url }}</a></div>
-                <a delete-button class="site-action site-remove" href="#/websites"><span class="glyphicon glyphicon-remove"></span></a>
-                <a edit-button href="#/websites" ng-click="editSiteOpen(site)" class="site-action site-edit"><span class="glyphicon glyphicon-pencil"></span></a>
+                <a data-toggle="modal" data-target="#modal-delete-website" ng-click="deleteSiteOpen(site)" class="site-action site-remove" href="#/websites"><span class="glyphicon glyphicon-remove"></span></a>
+                <a data-toggle="modal" data-target="#modal-edit-website" href="#/websites" ng-click="editSiteOpen(site)" class="site-action site-edit"><span class="glyphicon glyphicon-pencil"></span></a>
             </div>
         </div>
         <p ng-if="!sites.length">No websites configured.</p>

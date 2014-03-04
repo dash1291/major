@@ -17,7 +17,10 @@ dashboardControllers.controller('profile',
 dashboardControllers.controller('websites',
     ['$scope', 'Website',
     function ($scope, Website) {
+        var updatedSite;
         $scope.newSite = {};
+        $scope.updated = {};
+        $scope.deleted = {};
 
         $scope.addSite = function() {
             Website.save($scope.newSite);
@@ -29,21 +32,26 @@ dashboardControllers.controller('websites',
         };
 
         $scope.editSiteOpen = function(site) {
-            site.updated = {
+            updatedSite = site;
+            $scope.updated = {
                 'name': site.name,
                 'url': site.url
             };
         };
 
-        $scope.updateSite = function(site) {
-            Website.update({websiteId: site.id}, site.updated);
-            site.name = site.updated.name;
-            site.url = site.updated.url;
+        $scope.updateSite = function() {
+            Website.update({websiteId: updatedSite.id}, $scope.updated);
+            updatedSite.name = $scope.updated.name;
+            updatedSite.url = $scope.updated.url;
         };
 
-        $scope.deleteSite = function(site) {
-            Website.delete({websiteId: site.id});
-            $scope.sites.pop(site);
+        $scope.deleteSiteOpen = function(site) {
+            $scope.deleted = site;
+        };
+
+        $scope.deleteSite = function() {
+            Website.delete({websiteId: $scope.deleted.id});
+            $scope.sites.pop($scope.deleted);
         };
 
         $scope.sites = Website.query();
@@ -54,13 +62,18 @@ dashboardControllers.controller('pages',
     ['$scope', 'Website', 'Page',
     function($scope, Website, Page) {
         var selectedSiteId;
+        var updatedPage;
+        $scope.updated = {};
+        $scope.deleted = {};
 
         var sites = Website.query();
         $scope.sites = sites;
 
         sites.$promise.then(function(sites) {
-            selectedSiteId = sites[0].id;
-            $scope.pages = Page.query({websiteId: sites[0].id});
+            if (sites[0]) {
+                selectedSiteId = sites[0].id;
+                $scope.pages = Page.query({websiteId: sites[0].id});
+            }
         });
 
         $scope.selectSite = function(site) {
@@ -79,21 +92,27 @@ dashboardControllers.controller('pages',
         };
 
         $scope.editPageOpen = function(page) {
-            page.updated = {
-                'name': page.name,
-                'url': page.url
+            updatedPage = page;
+            console.log(updatedPage);
+            $scope.updated = {
+                url: page.url,
+                name: page.name
             };
         };
 
-        $scope.updatePage = function(page) {
-            Page.update({websiteId: selectedSiteId, pageId: page.id}, page.updated);
-            page.name = page.updated.name;
-            page.url = page.updated.url;
+        $scope.updatePage = function() {
+            Page.update({websiteId: selectedSiteId, pageId: updatedPage.id}, $scope.updated);
+            updatedPage.name = $scope.updated.name;
+            updatedPage.url = $scope.updated.url;
         };
 
-        $scope.deletePage = function(page) {
-            Page.delete({websiteId: selectedSiteId, pageId: page.id});
-            $scope.pages.pop(page);
+        $scope.deletePageOpen = function(page) {
+            $scope.deleted = page;
+        };
+
+        $scope.deletePage = function() {
+            Page.delete({websiteId: selectedSiteId, pageId: $scope.deleted.id});
+            $scope.pages.pop($scope.deleted);
         };
     }
 ]);

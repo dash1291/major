@@ -9,23 +9,23 @@ from webapp.models import Website, Page
 
 
 def get_gravatar_url(email):
-	email_hash = md5(email).hexdigest()
-	return 'http://www.gravatar.com/avatar/%s?s=32' % email_hash
+    email_hash = md5(email).hexdigest()
+    return 'http://www.gravatar.com/avatar/%s?s=32' % email_hash
 
 
 @api_view(['GET'])
 def profile(request):
-	return Response({
-		'email': request.user.email,
-		'picture': get_gravatar_url(request.user.email)
-	})
+    return Response({
+        'email': request.user.email,
+        'picture': get_gravatar_url(request.user.email)
+    })
 
 
 class WebsiteViewSet(viewsets.ModelViewSet):
     model = Website
 
     def get_queryset(self):
-    	return Website.objects.filter(user_id=self.request.user.id)
+        return Website.objects.filter(user_id=self.request.user.id)
 
     def get_serializer(self, instance=None, data=None,
                        files=None, many=False, partial=False):
@@ -50,7 +50,7 @@ class PageViewSet(viewsets.ModelViewSet):
     serializer = PageSerializer
 
     def get_queryset(self):
-    	return Page.objects.filter(website_id=self.kwargs['website_id'])
+        return Page.objects.filter(website_id=self.kwargs['website_id'])
 
     def get_serializer(self, instance=None, data=None,
                        files=None, many=False, partial=False):

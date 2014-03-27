@@ -1,8 +1,11 @@
 from django.conf import settings
 
+from bs4 import BeautifulSoup
+import requests
 import zmq
 
 
+"""ExtractorClient to interact with the extractor service."""
 class ExtractorClient():
     def __init__(self):
         context = zmq.Context()
@@ -30,3 +33,37 @@ class ExtractorClient():
     def extract(self, text):
         res = self.send_extractor_request(text)
         return self.parse_output(res)
+
+    def extract_from_url(self, url):
+        res = requests.get(url)
+        return self.extract(res.text)
+
+
+def store_extractions(extractions):
+    # store extractions in DB or JSON
+    return
+
+
+def strip_blacklist(doc):
+    # Doc is a BeautifulSoup object
+    blacklist = ['script', 'pre', 'code']
+
+    for tag in blacklist:
+        elements = doc.select(tag)
+        map(elements, lambda x: x.decompose)
+
+    return doc
+
+
+def process_html(doc):
+    # Take HTML input and output pre-processed text content
+    soup = BeautifulSoup(doc)
+    soup = strip_blacklist(doc)
+    return soup.text
+
+
+def process_url(url):
+    req = requests.get(url)
+    a = process_html(req.text)
+    extracted = ExtractorClient().extract(a)
+    store_extractions(extracted)

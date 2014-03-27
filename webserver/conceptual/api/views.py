@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework.serializers import ModelSerializer
 
 from webapp.models import Website, Page
+from api.utils import process_url
 
 
 def get_gravatar_url(email):
@@ -38,7 +39,6 @@ class WebsiteViewSet(viewsets.ModelViewSet):
                      files, many, partial)
 
 
-
 class PageSerializer(ModelSerializer):
     class Meta:
         model = Page
@@ -61,3 +61,8 @@ class PageViewSet(viewsets.ModelViewSet):
 
         return super(PageViewSet, self).get_serializer(instance, data,
                      files, many, partial)
+
+    def create(self, request, *args, **kwargs):
+        res = super(PageViewSet, self).create(request, *args, **kwargs)
+        process_url(self.object.url)
+        return res

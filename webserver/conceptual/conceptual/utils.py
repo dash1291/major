@@ -41,16 +41,17 @@ class ExtractorClient():
 
 def store_extractions(extractions):
     # store extractions in DB or JSON
+    print extractions
     return
 
 
 def strip_blacklist(doc):
     # Doc is a BeautifulSoup object
-    blacklist = ['script', 'pre', 'code']
+    blacklist = ['script', 'pre', 'code', 'title', 'style']
 
     for tag in blacklist:
         elements = doc.select(tag)
-        map(elements, lambda x: x.decompose)
+        map(lambda x: x.decompose, elements)
 
     return doc
 
@@ -58,12 +59,12 @@ def strip_blacklist(doc):
 def process_html(doc):
     # Take HTML input and output pre-processed text content
     soup = BeautifulSoup(doc)
-    soup = strip_blacklist(doc)
+    soup = strip_blacklist(soup)
     return soup.text
 
 
 def process_url(url):
     req = requests.get(url)
     a = process_html(req.text)
-    extracted = ExtractorClient().extract(a)
+    extracted = ExtractorClient().extract(str(a.encode('utf-8')))
     store_extractions(extracted)

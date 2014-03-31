@@ -5,6 +5,7 @@ MarkupSafe==0.18
 South==0.8.4
 Unidecode==0.04.14
 Werkzeug==0.9.4
+beautifulsoup4==4.3.2
 distribute==0.6.35
 django-browserid==0.9
 djangorestframework==2.3.12

@@ -50,8 +50,8 @@ def strip_blacklist(doc):
     blacklist = ['script', 'pre', 'code', 'title', 'style']
 
     for tag in blacklist:
-        elements = doc.select(tag)
-        map(lambda x: x.decompose, elements)
+        elements = doc.find_all(tag)
+        map(lambda x: x.decompose(), elements)
 
     return doc
 

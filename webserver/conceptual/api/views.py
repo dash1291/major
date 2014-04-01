@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework.serializers import ModelSerializer
 
 from webapp.models import Website, Page
-from api.utils import process_url
+from conceptual.utils import process_url
 
 
 def get_gravatar_url(email):

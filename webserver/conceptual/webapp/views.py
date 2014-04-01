@@ -1,11 +1,17 @@
+import json
+import StringIO
+
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.http import HttpResponse
 from django.core.context_processors import csrf
 from django.shortcuts import redirect, render
 from django.views.decorators.csrf import csrf_exempt
 
 from py2neo import neo4j
+
+from conceptual.utils import ExtractorClient
 
 
 def home(request):
@@ -13,7 +19,22 @@ def home(request):
 
 
 def play(request):
-    return render(request, 'new.html')
+    if request.method == 'POST':
+        f = request.FILES['file']
+
+        fp = StringIO.StringIO()
+
+        for chunk in f.chunks():
+            fp.write(chunk)
+        fp.seek(0)
+
+        extractions = ExtractorClient().extract(fp.read())
+        return HttpResponse(json.dumps(extractions))
+
+    else:
+        c = {}
+        c.update(csrf(request))
+        return render(request, 'new.html', c)
 
 
 def browse(request):

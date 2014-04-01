@@ -11,7 +11,8 @@
 		<p>Help yourself and upload a plain text document to see its concept map.</p>
 		<a class="btn btn-info btn-lg file-btn select">Select</a>
 		<a class="btn btn-primary btn-lg file-btn upload disabled"><img src="/static/img/spinner.gif">Upload</a>
-		<form action="/graph" id="upload-form" method="POST" enctype="multipart/form-data">
+		<form action="/play/" id="upload-form" method="POST" enctype="multipart/form-data">
+			{% csrf_token %}
 			<input name="file" id="fileupload" type="file">
 			<input type="submit">
 		</form>

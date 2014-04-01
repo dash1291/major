@@ -37,10 +37,6 @@ class ExtractorClient():
         res = self.send_extractor_request(text)
         return self.parse_output(res)
 
-    def extract_from_url(self, url):
-        res = requests.get(url)
-        return self.extract(res.text)
-
 
 def store_extractions(url, extractions):
     # store extractions in DB or JSON

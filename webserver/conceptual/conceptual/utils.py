@@ -1,3 +1,6 @@
+from hashlib import md5
+import os
+
 from django.conf import settings
 
 from bs4 import BeautifulSoup
@@ -39,10 +42,12 @@ class ExtractorClient():
         return self.extract(res.text)
 
 
-def store_extractions(extractions):
+def store_extractions(url, extractions):
     # store extractions in DB or JSON
-    print extractions
-    return
+    file_hash = md5(url).hexdigest()
+    dump_file_path = os.path.join(settings.EXTRACTIONS_PATH, file_hash)
+    open(dump_file_path).write(str(extractions))
+    return dump_file_path
 
 
 def strip_blacklist(doc):
@@ -67,4 +72,4 @@ def process_url(url):
     req = requests.get(url)
     a = process_html(req.text)
     extracted = ExtractorClient().extract(str(a.encode('utf-8')))
-    store_extractions(extracted)
+    return store_extractions(url, extracted)

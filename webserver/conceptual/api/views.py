@@ -64,5 +64,7 @@ class PageViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         res = super(PageViewSet, self).create(request, *args, **kwargs)
-        process_url(self.object.url)
+        extraction_file_path = process_url(self.object.url)
+        self.object.extractions_file = extraction_file_path
+        self.object.save()
         return res

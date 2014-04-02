@@ -13,10 +13,12 @@ import scala.io.Source
 import edu.knowitall.ollie.confidence.OllieConfidenceFunction
 
 
+
 // Coreference structure
 class Coreference(repr:String, ref:String, sentence_index:Int) {
-    var representative:String = repr
-    var coref:String = ref
+    // lowercase all this shit
+    var representative:String = repr.toLowerCase
+    var coref:String = ref.toLowerCase
     var sentence:Int = sentence_index
 
     override def toString():String = "(" + representative + ", " + coref + ")"
@@ -25,9 +27,10 @@ class Coreference(repr:String, ref:String, sentence_index:Int) {
 
 // Extraction structure
 class Extraction(arg1Text:String, relText:String, arg2Text:String) {
-    var arg1:String = arg1Text
-    var rel:String = relText
-    var arg2:String = arg2Text
+    // lowercase all this shit
+    var arg1:String = arg1Text.toLowerCase
+    var rel:String = relText.toLowerCase
+    var arg2:String = arg2Text.toLowerCase
 
     override def toString():String = "(" + arg1 + ";" + rel + ";" + arg2 + ")"
 }
@@ -98,6 +101,14 @@ class Extractor {
     var parser = new MaltParser
     var ollie = new Ollie
 
+    def isPronoun(str:String):Boolean = {
+        if (str == "it" || str == "he" || str == "she" || str == "they" || str == "its") {
+            return true
+        } else {
+            return false
+        }
+    }
+
     // Method to be used for extraction.
     def extract(str:String):ExtractionsList = {
         // Extract coreferences
@@ -121,19 +132,18 @@ class Extractor {
             var arg2 = ""
             var rel = ""
             for (inst <- extractionInstances) {
-
+                arg1 = inst.extraction.arg1.text
+                arg2 = inst.extraction.arg2.text
+                rel = inst.extraction.rel.text
                 for (coref <- corefs) {
                     repr = coref.representative
-                    arg1 = inst.extraction.arg1.text
-                    arg2 = inst.extraction.arg2.text
-                    rel = inst.extraction.rel.text
 
                     if (coref.sentence == ind) {
-                        if (coref.coref == arg1) {
+                        if (coref.coref == arg1 && isPronoun(arg1)) {
                             arg1 = repr
                         }
 
-                        if (coref.coref == arg2) {
+                        else if (coref.coref == arg2 && isPronoun(arg2)) {
                             arg2 = repr
                         }
                     }

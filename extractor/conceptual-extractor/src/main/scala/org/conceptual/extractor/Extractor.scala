@@ -149,14 +149,12 @@ class Extractor {
                     repr = coref.representative
 
                     if (coref.sentence == ind) {
-                        if (isPronoun(arg1)) {
-                            if (coref.coref == arg1) {
-                                arg1 = repr
-                            }
-                        } else if (isPronoun(arg2)) {
-                            if (coref.coref == arg2) {
-                                arg2 = repr
-                            }
+                        if (coref.coref == arg1) {
+                            arg1 = repr
+                        }
+
+                        if (coref.coref == arg2) {
+                            arg2 = repr
                         }
                     }
                 }

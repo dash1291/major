@@ -2,6 +2,7 @@ package org.conceptual.extractor
 
 import collection.mutable.MutableList
 
+import edu.arizona.sista.processors.Document
 import edu.arizona.sista.processors.Processor
 import edu.arizona.sista.processors.CorefMention
 import edu.arizona.sista.processors.corenlp.CoreNLPProcessor
@@ -21,7 +22,7 @@ class Coreference(repr:String, ref:String, sentence_index:Int) {
     var coref:String = ref.toLowerCase
     var sentence:Int = sentence_index
 
-    override def toString():String = "(" + representative + ", " + coref + ")"
+    override def toString():String = "(" + representative + ";" + coref + ";" + sentence + ")"
 }
 
 
@@ -51,6 +52,8 @@ class CorefResolver {
     var proc:Processor = new CoreNLPProcessor(internStrings = true)
     proc.annotate("Initialize this processor.")
 
+    var corefs = new MutableList[Coreference]
+
     private def lessThanForMentions(x:CorefMention, y:CorefMention):Boolean = {
         if (x.sentenceIndex < y.sentenceIndex) return true
         if (x.sentenceIndex > y.sentenceIndex) return false
@@ -65,9 +68,8 @@ class CorefResolver {
         true
     }
 
-    def resolve(docString: String):MutableList[Coreference] = {
+    def resolve(docString: String):Document = {
         var doc = proc.annotate(docString)
-        var corefs = new MutableList[Coreference]
 
         var i:Int = 0
         var text:String = ""
@@ -80,7 +82,10 @@ class CorefResolver {
                     if (i == 0) {
                         repr = text
                     } else {
-                        corefs += new Coreference(repr, text, mention.sentenceIndex)
+                        if (repr != text) {
+                            corefs += new Coreference(repr, text, mention.sentenceIndex)
+                        }
+
                     }
                     i = i + 1
                 }
@@ -89,8 +94,7 @@ class CorefResolver {
                 i = 0
             }
         })
-
-        return corefs
+        return doc
     }
 }
 
@@ -102,7 +106,8 @@ class Extractor {
     var ollie = new Ollie
 
     def isPronoun(str:String):Boolean = {
-        if (str == "it" || str == "he" || str == "she" || str == "they" || str == "its") {
+        var strL = str.toLowerCase
+        if (strL == "it" || strL == "he" || strL == "she" || strL == "they" || strL == "its") {
             return true
         } else {
             return false
@@ -112,19 +117,21 @@ class Extractor {
     // Method to be used for extraction.
     def extract(str:String):ExtractionsList = {
         // Extract coreferences
-        var corefs = corefResolver.resolve(str)
+        var doc = corefResolver.resolve(str)
+        var corefs = corefResolver.corefs
 
         // segment the text into sentences
-        var sentencer = new OpenNlpSentencer
-        var sentences = sentencer.segmentTexts(str).iterator
+        //var sentencer = new OpenNlpSentencer
+        var sentences = doc.sentences
 
         // store sentence index
         // Here ollie triples are extracted and coreference are
         // replaced by there representative phrases.
-        var ind = 0
+        var ind = 1
         var extractions = new MutableList[Extraction]
         for (line <- sentences) {
-            val parsed = parser.dependencyGraph(line)
+            println(line)
+            val parsed = parser.dependencyGraph(line.words.mkString(" "))
             val extractionInstances = ollie.extract(parsed)
 
             var repr = ""
@@ -132,27 +139,40 @@ class Extractor {
             var arg2 = ""
             var rel = ""
             for (inst <- extractionInstances) {
+                var skip = false
+
                 arg1 = inst.extraction.arg1.text
                 arg2 = inst.extraction.arg2.text
                 rel = inst.extraction.rel.text
+
                 for (coref <- corefs) {
                     repr = coref.representative
 
                     if (coref.sentence == ind) {
-                        if (coref.coref == arg1 && isPronoun(arg1)) {
-                            arg1 = repr
-                        }
-
-                        else if (coref.coref == arg2 && isPronoun(arg2)) {
-                            arg2 = repr
+                        if (isPronoun(arg1)) {
+                            if (coref.coref == arg1) {
+                                arg1 = repr
+                            }
+                        } else if (isPronoun(arg2)) {
+                            if (coref.coref == arg2) {
+                                arg2 = repr
+                            }
                         }
                     }
                 }
-                extractions += new Extraction(arg1, rel, arg2)
 
+                if (isPronoun(arg1) || isPronoun(arg2)) {
+                    skip = true
+                }
+
+                if (!skip) {
+                    extractions += new Extraction(arg1, rel, arg2)
+                }
             }
+
             ind = ind + 1
         }
+
         return new ExtractionsList(extractions)
     }
 }

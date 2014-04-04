@@ -1,4 +1,9 @@
 from hashlib import md5
+import json
+import os
+
+from django.conf import settings
+from django.shortcuts import get_object_or_404
 
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
@@ -62,9 +67,21 @@ class PageViewSet(viewsets.ModelViewSet):
         return super(PageViewSet, self).get_serializer(instance, data,
                      files, many, partial)
 
-    def create(self, request, *args, **kwargs):
-        res = super(PageViewSet, self).create(request, *args, **kwargs)
+
+    def post_save(self, obj, *args, **kwargs):
+        import pdb; pdb.set_trace()
         extraction_file_path = process_url(self.object.url)
         self.object.extractions_file = extraction_file_path
         self.object.save()
-        return res
+        super(PageViewSet, self).post_save(obj, *args, **kwargs)
+
+
+@api_view(['GET'])
+def extractions(request):
+    website_addr = request.GET.get('website')
+    page_addr = request.GET.get('page')
+
+    page = get_object_or_404(website_addr, page_addr)
+    extractions = open(os.path.join(settings.EXTRACTIONS_PATH,
+        page.extractions_file)).read()
+    return Response(json.dumps(extractions))

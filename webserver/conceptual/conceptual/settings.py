@@ -112,3 +112,4 @@ STATICFILES_DIRS = (
 LOGIN_URL = '/signin'
 
 EXTRACTOR_SERVICE = 'tcp://127.0.0.1:8080'
+EXTRACTIONS_PATH = os.path.join(BASE_DIR, 'extractions')

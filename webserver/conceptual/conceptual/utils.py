@@ -42,7 +42,7 @@ def store_extractions(url, extractions):
     # store extractions in DB or JSON
     file_hash = md5(url).hexdigest()
     dump_file_path = os.path.join(settings.EXTRACTIONS_PATH, file_hash)
-    open(dump_file_path).write(str(extractions))
+    open(dump_file_path, 'w').write(str(extractions))
     return dump_file_path
 
 
@@ -65,7 +65,7 @@ def process_html(doc):
 
 
 def process_url(url):
-    req = requests.get(url)
+    req = requests.get('http://' + url)
     a = process_html(req.text)
     extracted = ExtractorClient().extract(str(a.encode('utf-8')))
     return store_extractions(url, extracted)

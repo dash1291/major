@@ -1,4 +1,5 @@
 from hashlib import md5
+import json
 import os
 
 from django.conf import settings
@@ -42,7 +43,7 @@ def store_extractions(url, extractions):
     # store extractions in DB or JSON
     file_hash = md5(url).hexdigest()
     dump_file_path = os.path.join(settings.EXTRACTIONS_PATH, file_hash)
-    open(dump_file_path, 'w').write(str(extractions))
+    open(dump_file_path, 'w').write(json.dumps((extractions)))
     return dump_file_path
 
 

@@ -69,10 +69,9 @@ class PageViewSet(viewsets.ModelViewSet):
 
 
     def post_save(self, obj, *args, **kwargs):
-        import pdb; pdb.set_trace()
-        extraction_file_path = process_url(self.object.url)
-        self.object.extractions_file = extraction_file_path
-        self.object.save()
+        extraction_file_path = process_url(obj.url)
+        obj.extractions_file = extraction_file_path
+        obj.save()
         super(PageViewSet, self).post_save(obj, *args, **kwargs)
 
 
@@ -80,8 +79,7 @@ class PageViewSet(viewsets.ModelViewSet):
 def extractions(request):
     website_addr = request.GET.get('website')
     page_addr = request.GET.get('page')
-
-    page = get_object_or_404(website_addr, page_addr)
+    page = get_object_or_404(Page, url=website_addr + page_addr)
     extractions = open(os.path.join(settings.EXTRACTIONS_PATH,
         page.extractions_file)).read()
-    return Response(json.dumps(extractions))
+    return Response(json.loads(extractions), content_type="application/json")

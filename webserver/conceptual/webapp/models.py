@@ -26,5 +26,6 @@ class Page(models.Model):
     extractions_file = models.CharField(max_length=200, blank=True)
 
     def save(self, *args, **kwargs):
-        self.url = self.website.url + self.url
+        relative_url = self.url[self.url.find('/'):]
+        self.url = self.website.url + relative_url
         super(Page, self).save(*args, **kwargs)

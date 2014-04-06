@@ -37,6 +37,11 @@ def play(request):
         return render(request, 'new.html', c)
 
 
+def visualize_page(request):
+    page_url = request.GET.get('page')
+    return render(request, 'visualize.html', {'page_url': page_url})
+
+
 def browse(request):
     concepts = []
     graph_db = neo4j.GraphDatabaseService('http://localhost:7474/db/data/')

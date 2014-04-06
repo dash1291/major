@@ -1,5 +1,4 @@
-function init_graph(links, element) {
-  // http://blog.thomsonreuters.com/index.php/mobile-patent-suits-graphic-of-the-day/
+function init_graph(links, element, zoomLevel) {
   var nodes = {};
   var heaviestNode;
   var nodesCount = 0;
@@ -25,7 +24,6 @@ function init_graph(links, element) {
         heaviestNode = link.source;
       }
 
-
       if (nodes[link.target].count > nodes[heaviestNode]) {
         heaviestNode = link.target;
       }
@@ -43,12 +41,14 @@ function init_graph(links, element) {
 
   var force = d3.layout.force()
       .nodes(d3.values(nodes))
-      .links(links)
+      .links(links.filter(function(x) { return x.source.count >= zoomLevel && x.target.count >= zoomLevel;}))
       .size([width, height])
       .linkDistance(linkDistance)
       .charge(-1000)
       .on("tick", tick)
       .start();
+
+
 
   var svg = d3.select(element).append("svg")
       .attr("width", width)
@@ -75,7 +75,7 @@ function init_graph(links, element) {
       .attr("marker-end", function(d) { return "url(#" + d.target.index + ")"; });
 
   var circle = svg.append("g").selectAll("circle")
-      .data(force.nodes())
+      .data(force.nodes().filter(function(x) { return x.count >= zoomLevel; }))
     .enter().append("circle")
       .attr("r", getRadius)
       .call(force.drag)
@@ -91,7 +91,7 @@ function init_graph(links, element) {
       .text(function(d) { return d.type; });
 
   var text = svg.append("g").selectAll("text")
-      .data(force.nodes())
+      .data(force.nodes().filter(function(x) { return x.count >= zoomLevel; }))
     .enter().append("text")
       .attr("x", 8)
       .attr("y", "1em")
@@ -154,4 +154,6 @@ function init_graph(links, element) {
   function transform(d) {
     return "translate(" + d.x + "," + d.y + ")";
   }
+
+  return heaviestNode;
 }

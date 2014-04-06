@@ -20,7 +20,7 @@ urlpatterns = patterns('',
     url(r'^signup/', webapp.signup),
     url(r'^signin/', webapp.signin),
     url(r'^logout/', webapp.signout),
-
+    url(r'^test/', webapp.visualize_page),
 
     url(r'^dashboard/$', webapp.dashboard),
     url(r'^dashboard/(?P<path>.*)$', 'django.views.static.serve',

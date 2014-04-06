@@ -77,9 +77,8 @@ class PageViewSet(viewsets.ModelViewSet):
 
 @api_view(['GET'])
 def extractions(request):
-    website_addr = request.GET.get('website')
     page_addr = request.GET.get('page')
-    page = get_object_or_404(Page, url=website_addr + page_addr)
+    page = get_object_or_404(Page, url=page_addr)
     extractions = open(os.path.join(settings.EXTRACTIONS_PATH,
         page.extractions_file)).read()
     return Response(json.loads(extractions), content_type="application/json")

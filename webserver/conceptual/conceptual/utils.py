@@ -1,6 +1,7 @@
 from hashlib import md5
 import json
 import os
+import re
 
 from django.conf import settings
 
@@ -62,11 +63,43 @@ def process_html(doc):
     # Take HTML input and output pre-processed text content
     soup = BeautifulSoup(doc)
     soup = strip_blacklist(soup)
-    return soup.text
+    text = soup.text
+
+    # Turn newlines into full-stops(.) to force sentence split
+    text = re.sub('\n+', '.', text)
+    text = re.sub('\'m', ' am', text)
+
+    return text
 
 
 def process_url(url):
     req = requests.get('http://' + url)
     a = process_html(req.text)
     extracted = ExtractorClient().extract(str(a.encode('utf-8')))
+    break_edges(extracted)
     return store_extractions(url, extracted)
+
+
+def break_edges(extractions):
+    i1 = 0
+    for extraction in extractions:
+        obj1 = extraction[0]
+        rel = extraction[1]
+        obj2 = extraction[2]
+        comb = rel + ' ' + obj2
+
+        i2 = 0
+        for extraction2 in extractions:
+            if i1 == i2:
+                i2 += 1
+                continue
+
+            if extraction2[0] == obj1 and comb in extraction2[1]:
+                # Make the subject2 as subject1 of this extraction
+                extraction2[0] = obj2
+
+                # Strip the redundant part of the relation
+                extraction2[1] = extraction2[1].replace(comb, '')
+            i2 += 1
+
+        i1 += 1

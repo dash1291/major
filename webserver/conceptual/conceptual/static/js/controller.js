@@ -47,7 +47,6 @@ document.onreadystatechange = function(e) {
     }
 
     if (document.readyState === 'complete') {
-        console.log('here');
         fetchExtractions(document.querySelector('#graph').getAttribute('data-page'));
 
         document.querySelector('#zoom-in').onclick = function(e) {

@@ -54,6 +54,9 @@ function init_graph(links, element, zoomLevel) {
       .attr("width", width)
       .attr("height", height);
 
+
+  force.nodes(force.nodes().filter(function(x) { return x.count >= zoomLevel; }));
+
   // Per-type markers, as they don't inherit styles.
   svg.append("defs").selectAll("marker")
       .data(force.nodes())
@@ -75,7 +78,7 @@ function init_graph(links, element, zoomLevel) {
       .attr("marker-end", function(d) { return "url(#" + d.target.index + ")"; });
 
   var circle = svg.append("g").selectAll("circle")
-      .data(force.nodes().filter(function(x) { return x.count >= zoomLevel; }))
+      .data(force.nodes())
     .enter().append("circle")
       .attr("r", getRadius)
       .call(force.drag)
@@ -91,7 +94,7 @@ function init_graph(links, element, zoomLevel) {
       .text(function(d) { return d.type; });
 
   var text = svg.append("g").selectAll("text")
-      .data(force.nodes().filter(function(x) { return x.count >= zoomLevel; }))
+      .data(force.nodes())
     .enter().append("text")
       .attr("x", 8)
       .attr("y", "1em")

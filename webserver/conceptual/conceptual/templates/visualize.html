@@ -1,84 +1,78 @@
-<!doctype html>
-<html>
-    <head>
-        <title>Test</title>
-        <script src="/static/js/d3.v3.min.js"></script>
-        <script src="/static/js/forcegraph.js"></script>
-        <style>
-            .btn.upload img {
-                height: 24px;
-                margin: 0 5px 0 0;
-                width: 24px;
-                display: none;
-            }
+<script src="/static/js/d3.v3.min.js"></script>
+<script src="/static/js/forcegraph.js"></script>
+<style>
+    .btn.upload img {
+        height: 24px;
+        margin: 0 5px 0 0;
+        width: 24px;
+        display: none;
+    }
 
-            #main {
-                margin-bottom: 20px;
-            }
+    #main {
+        margin-bottom: 20px;
+    }
 
-            #upload-form {
-                display: none;
-            }
+    #upload-form {
+        display: none;
+    }
 
-            .link {
-              fill: none;
-              stroke: #666;
-              stroke-width: 1.5px;
-            }
+    .link {
+      fill: none;
+      stroke: #666;
+      stroke-width: 1.5px;
+    }
 
-            #licensing {
-              fill: green;
-            }
+    #licensing {
+      fill: green;
+    }
 
-            .link.licensing {
-              stroke: green;
-            }
+    .link.licensing {
+      stroke: green;
+    }
 
-            .link.resolved {
-              stroke-dasharray: 0,2 1;
-            }
+    .link.resolved {
+      stroke-dasharray: 0,2 1;
+    }
 
-            circle {
-              fill: #ccc;
-              stroke: #333;
-              stroke-width: 1.5px;
-            }
+    circle {
+      fill: #ccc;
+      stroke: #333;
+      stroke-width: 1.5px;
+    }
 
-            .link.highlight{
-                stroke: blue;
-                //stroke-width: 2px;
-            }
+    .link.highlight{
+        stroke: blue;
+        //stroke-width: 2px;
+    }
 
-            text {
-              font: 16px sans-serif;
-              pointer-events: none;
-              text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
-            }
+    text {
+      font: 16px sans-serif;
+      pointer-events: none;
+      text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+    }
 
-            .link-text {
-                opacity: 0.6;
-            }
+    .link-text {
+        opacity: 0.6;
+    }
 
-            .link-text.hidden {
-                opacity: 0;
-            }
+    .link-text.hidden {
+        opacity: 0;
+    }
 
-            #toolbox a {
-                font-size: 32px;
-                text-decoration: none;
-            }
+    #toolbox {
+        position: fixed;
+    }
+    #toolbox a {
+        font-size: 32px;
+        text-decoration: none;
+    }
 
-        </style>
-    </head>
-    <body>
-        <div class="row">
-            <div id="toolbox">
-                <a href="#" id="zoom-in">+</a>
-                <a href="#" id="zoom-out">-</a>
-            </div>
-            <div id="graph" data-page="{{ page_url }}"></div>
-        </div>
-        <script src="/static/js/controller.js"></script>
-    </body>
-</html>
-
+</style>
+<div class="row">
+    <div id="toolbox">
+        <a href="#" id="zoom-in">+</a>
+        <a href="#" id="zoom-out">-</a>
+    </div>
+    <div id="graph" data-page="{{ page_url }}"></div>
+</div>
+<script src="/static/js/controller.js"></script>

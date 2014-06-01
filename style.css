@@ -1,0 +1,180 @@
+#header {
+  border-bottom: 1px solid #ccc;
+  margin-top: 25px;
+  margin-bottom: 40px;
+}
+#content {
+  font-family: verdana, sans-serif;
+}
+
+#branding a {
+  float: left;
+  margin-top: 20px;
+  font-size: 50px;
+  font-family: 'Palatino', sans-serif;
+  color: #AAA;
+}
+
+.post p, p, li, span, a {
+  font-family: "Georgia", sans-serif;
+  color: #555;
+  font-size: 20px;
+}
+
+.post, p {
+  line-height: 30px;
+}
+
+.post {
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #DDD;
+}
+
+#content h1, h2, h3 {
+  font-family: "Palatino", sans-serif;
+  color: #666633;
+  clear: both;
+  font-weight: 500;
+}
+
+.post h2, h3{
+  margin: 30px 0 -8px 0;
+}
+
+a {
+  color: #297ACC;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #669999;
+}
+
+
+#container {
+  max-width: 60%;
+  margin: 0 auto;
+  min-width: 800px;
+}
+
+#footer {
+  margin: 10px 5px 10px;
+  color: #999;
+  font-size: 16px;
+  font-style: italic;
+  float: right;
+}
+
+#nav {
+  float: right;
+  margin-bottom: 20px;
+}
+
+#nav li {
+  display: inline;
+  padding: 0;
+}
+
+#nav a {
+  font-family: verdana, sans-serif;
+  font-size: 20px;
+  display: block;
+  float: left;
+  height: 40px;
+  padding-top: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  color: #050;
+}
+
+#nav a:hover {
+  background-color: #eee;
+  color: black;
+}
+
+.post-item {
+  margin-bottom: 20px;
+  clear: both;
+}
+
+.post-date {
+  color: #aaa;
+  font-size: 16px;
+}
+
+.post-title-link {
+  font-size: 20px;
+  margin-right: 20px;
+}
+
+.post h1 {
+  margin-bottom:5px;
+}
+
+img {
+  width: 100%;
+}
+
+.post-meta {
+  margin-bottom:20px;
+}
+
+.post-end {
+  border:1px solid grey;
+  margin-top:10px;
+  margin-bottom:10px;
+}
+
+pre {
+  padding: 5px 0 5px 25px;
+  line-height: 20px;
+}
+
+pre span {
+  font-family: 'Verdana', sans-serif;
+  font-size: 15px;
+  font-weight: 300 !important;
+}
+
+@media screen and (max-width: 824px) {
+  #nav, #header, #branding a, #footer, #nav a {
+    clear: both;
+    text-align: center;
+    width: 100%;
+  }
+
+  #header {
+    margin-bottom: 5px;
+  }
+
+  #nav {
+    margin-bottom: 0px;
+  }
+
+  #branding {
+    display: block;
+    clear: both;
+  }
+
+  #branding a {
+    font-size: 40px;
+  }
+
+  .post-date {
+    color: #aaa;
+    font-size: 16px;
+    display: block;
+    margin-top: 5px;
+  }
+
+  #container {
+    min-width: 90%;
+    margin: 0 auto;
+  }
+
+  #nav ul {
+    margin: 0;
+    padding: 5px;
+  }
+}
